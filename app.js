@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({ //initialisaiton de body parser
 
 //configurer mongoose
 const mongoose = require("mongoose")
-mongoose.connect("mongodb+srv://Almadmin:Alma3.141592@cluster0-gfcq6.mongodb.net/test?retryWrites=true&w=majority",(err) =>{
+mongoose.connect("mongodb+srv://Almadmin:Alma3.141592@cluster0-gfcq6.mongodb.net/test?retryWrites=true&w=majority",{useNewUrlParser: true},(err) =>{
 	if (err)
 		throw err
 })
@@ -20,12 +20,12 @@ mongoose.connect("mongodb+srv://Almadmin:Alma3.141592@cluster0-gfcq6.mongodb.net
 //the port of the application
 const PORT = process.env.PORT || 8080
 
-app.use(express.static(__dirname + '/public')) //ajout des fichiers public poru le css et le javascript
-app.set('view engine', 'ejs');//moteur de rendu
+app.use(express.static(__dirname + '/public')) //add public files 
+app.set('view engine', 'ejs');//view engine configuration
 
 
-app.get("",(req,res)=>{ //arboressence par défault de l'application
-	res.render("index.ejs",{})//pour optimiser on envoie la liste via ejs on n'utilise socket io que quand la liste est update
+app.get("",(req,res)=>{
+	res.render("index.ejs",{})
 })
 
 
@@ -41,6 +41,6 @@ io.on("connection",(socket)=>{ //socket io
 })
 
 
-http.listen(8081,()=>{
+http.listen(PORT,()=>{
 	console.log("Le serveur fonctionne sur 8080"); //le serveur fonctionne d'il n'y a pas eu d'erreurs
 })

@@ -2,3 +2,78 @@ html,body
 {
 	margin: 0;
 }
+body
+{
+	background: url("/images/background.jpg") center fixed;
+	font-family: 'Dosis';
+}
+header
+{
+	background-color: #000;
+	padding-left: 1%;
+	padding-right: 0%;
+	height:80px;
+	margin-bottom: 20px;
+}
+section
+{
+	margin-left: 10%;
+	margin-right: 10%;
+}
+a
+{
+	text-decoration:none;
+	color:#0FF;
+}
+a:hover
+{
+	text-decoration:none;
+	color:#9FF;
+}
+#title
+{
+	height: 100%;
+}
+#title>h1
+{
+	height:100%;
+	margin-bottom: 0px;
+	margin-top: 0px;
+	margin-left: 5px;
+	margin-right: 5px;
+	line-height:80px;
+	vertical-align: center;
+	transition-duration: 0.5s;
+}
+#title>h1:hover
+{
+	color:orange;
+}
+
+/*For style of form and nav*/
+#taskSelection
+{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+button, select
+{
+	color:white;
+    border:1px solid #111;
+    border-radius:5px;
+    transition-duration:1s;
+    height: 25px;
+    font-size: 15px;
+}
+select
+{
+	background: black;
+}
+label
+{
+	font-size: 20px;
+	margin:5px;
+	color: white;
+}
