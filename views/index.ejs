@@ -15,8 +15,43 @@
 		<a href="#" id="title">
 			<h1>&nbsp;Almati&nbsp;</h1>
 		</a>
+		<a href="#userLogIn" id="userLink"><img src="/images/user.png" alt="userImage" width="50" height="50"></a>
+		
+		<!-- user connexion -->
+		<nav id="userLogIn" onclick="closeWindow(this,true)" class="userBox">
+			<div onclick="closeWindow('',false)">
+				<button class="closeButton" onclick="closeWindow(this,true)">&nbsp;</button>
+				<form action="#" method="post" accept-charset="utf-8" id="logingForm" >
+					
+					<label for="user">Pseudo</label>
+					<input type="text" name="pseudo" value="" placeholder="User">
+					<label for="password">Mot de passe</label>
+					<input type="password" name="password" value="" placeholder="Password">
+					<input type="submit" name="submit" value="Valider">
+				</form>
+				<a href="#userAdd"><p>Nouvel utilisateur</p></a>
+			</div>
+		</nav>
+		
+		<!-- add user -->
+		<nav id="userAdd" onclick="closeWindow(this,true)" class="userBox">
+			<div onclick="closeWindow('',false)">
+				<button class="closeButton" onclick="closeWindow(this,true)">&nbsp;</button>
+				<form action="/newUser" method="post" accept-charset="utf-8">
+					<label for="user">Pseudo</label>
+					<input type="text" name="pseudo" value="" placeholder="User">
+					<label for="password">Mot de passe</label>
+					<input type="password" name="password" value="" placeholder="Password">
+					<label for="password">Confirmation du mot de passe</label>
+					<input type="password" name="passwordConfirm" value="" placeholder="Password">
+					<input type="submit" name="submit" value="Valider">
+				</form>
+			</div>
+		</nav>
 	</header>
+
 	<section>
+		<!-- input for filter task -->
 		<nav id="taskSelection">
 			<label for="userSelect">Utilisateur: </label>
 			<select name="userSelect" id="userSelect">
@@ -41,5 +76,6 @@
 	<!--Inclusion des scripts-->
 	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
 	<script type="text/javascript" src="/js/socket.js"></script>
+	<script src="/js/index.js" type="text/javascript" charset="utf-8"></script>
 </body>
 </html>

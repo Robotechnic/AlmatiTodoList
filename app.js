@@ -12,10 +12,14 @@ app.use(bodyParser.urlencoded({ //initialisaiton de body parser
 
 //configurer mongoose
 const mongoose = require("mongoose")
-mongoose.connect("mongodb+srv://Almadmin:Alma3.141592@cluster0-gfcq6.mongodb.net/test?retryWrites=true&w=majority",{useNewUrlParser: true},(err) =>{
+//mongoose.connect("mongodb+srv://Almadmin:Alma3.141592@cluster0-gfcq6.mongodb.net/test?retryWrites=true&w=majority",{useNewUrlParser: true},(err) =>{
+mongoose.connect("mongodb://localhost/toDoList",{useNewUrlParser: true},(err) =>{
 	if (err)
 		throw err
 })
+
+userMongo = require("./models/User")
+taskMongo = require("./models/Task")
 
 //the port of the application
 const PORT = process.env.PORT || 8080
