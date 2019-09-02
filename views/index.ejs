@@ -34,16 +34,34 @@
 		</nav>
 		
 		<!-- add user -->
-		<nav id="userAdd" onclick="closeWindow(this,true)" class="userBox">
+		<nav id="userAdd" onclick="closeWindow(this,true)" class="userBox warningOnClose">
 			<div onclick="closeWindow('',false)">
 				<button class="closeButton" onclick="closeWindow(this,true)">&nbsp;</button>
-				<form action="/newUser" method="post" accept-charset="utf-8">
+				<form action="/newUser" method="post" accept-charset="utf-8" onsubmit="return verifyPasswordPseudo(this)">
 					<label for="user">Pseudo</label>
-					<input type="text" name="pseudo" value="" placeholder="User">
+					<div class="tooltip">
+						<input type="text" name="pseudo" value="" placeholder="Pseudo" id = "pseudoInput">
+						<div class="bottom" id="pseudoTooltip">
+							<p>Le pseudo ne doit pas faire moins de <strong>2</strong> caractères ou plus de <strong>15</strong> caratères</p>
+							<i></i>
+						</div>
+					</div>
 					<label for="password">Mot de passe</label>
-					<input type="password" name="password" value="" placeholder="Password">
+					<div class="tooltip">
+						<input type="password" name="password" value="" placeholder="Password" id = "passwordInput"> 
+						<div class="bottom" id="passwordTooltip">
+							<p>Le mot de passe doit faire plus de 8 caratèreset conternir des majuscules, des minuscules et des nombres,</p>
+							<i></i>
+						</div>
+					</div>
 					<label for="password">Confirmation du mot de passe</label>
-					<input type="password" name="passwordConfirm" value="" placeholder="Password">
+					<div class="tooltip">
+						<input type="password" name="passwordConfirm" value="" placeholder="Password" id = "passwordVerifInput">
+						<div class="bottom" id="passwordConfirmTooltip">
+							<p>Les mots de passes ne correspondent pas</p>
+							<i></i>
+						</div>
+					</div>
 					<input type="submit" name="submit" value="Valider">
 				</form>
 			</div>

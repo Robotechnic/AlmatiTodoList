@@ -161,4 +161,51 @@ input[type="submit"]:hover
     display: block;
     margin: 2px;
     margin-left: auto;
+    cursor: pointer;
+}
+
+/*tips for logIn*/
+.tooltip {
+    display:inline-block;
+    position:relative;
+    text-align:left;
+}
+
+.tooltip .bottom {
+    min-width:200px; 
+    top:40px;
+    left:50%;
+    transform:translate(-50%, 20%);
+    padding:10px 20px;
+    color:#FFFFFF;
+    background-color:#0FF;
+    font-weight:normal;
+    font-size:13px;
+    border-radius:8px;
+    position:absolute;
+    z-index:999999999;
+    box-sizing:border-box;
+    border:1px solid #222;box-shadow:0 1px 8px rgba(0,0,0,0.5);
+    display:none;
+}
+
+.tooltip .bottom i {
+    position:absolute;
+    bottom:100%;
+    left:50%;
+    margin-left:-12px;
+    width:24px;
+    height:12px;
+    overflow:hidden;
+}
+
+.tooltip .bottom i::after {
+    content:'';
+    position:absolute;
+    width:12px;
+    height:12px;
+    left:50%;
+    transform:translate(-50%,50%) rotate(45deg);
+    background-color:#0FF;
+    border:1px solid #222;box-shadow:0 1px 8px rgba(0,0,0,0.5);
 }

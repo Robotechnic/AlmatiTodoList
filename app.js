@@ -21,6 +21,8 @@ mongoose.connect("mongodb://localhost/toDoList",{useNewUrlParser: true},(err) =>
 userMongo = require("./models/User")
 taskMongo = require("./models/Task")
 
+const main = require("./routes/main.js")
+
 //the port of the application
 const PORT = process.env.PORT || 8080
 
@@ -28,9 +30,7 @@ app.use(express.static(__dirname + '/public')) //add public files
 app.set('view engine', 'ejs');//view engine configuration
 
 
-app.get("",(req,res)=>{
-	res.render("index.ejs",{})
-})
+app.use("/",main)
 
 
 io.on("connection",(socket)=>{ //socket io
