@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<title>TodoListAlmati</title>
 	<link rel="stylesheet" type="text/css" href="/css/index.css">
+	<link rel="stylesheet" type="text/css" href="/css/prism.css">
 	<link rel="icon" type="image/png" href="/images/icon-checkBox.png">
 
 	<!-- Fonts -->
@@ -15,18 +16,33 @@
 		<a href="#" id="title">
 			<h1>&nbsp;Almati&nbsp;</h1>
 		</a>
-		<a href="#userLogIn" id="userLink"><img src="/images/user.png" alt="userImage" width="50" height="50"></a>
+		<a href="<% if(!image) {%>#userLogIn<%} else {%>#userParams<%}%>" id="userLink">
+			<img src="<% if(image) {%><%="UserImages/"+image%><%} else {%>/images/user.png<%}%>" alt="userImage" width="50" height="50" style="border-radius: 100%;">
+		</a>
 		
-		<!-- user connexion -->
+		<% if(!image) {%>
+		<!-- user connexion if he isn't connected-->
 		<nav id="userLogIn" onclick="closeWindow(this,true)" class="userBox">
 			<div onclick="closeWindow('',false)">
 				<button class="closeButton" onclick="closeWindow(this,true)">&nbsp;</button>
 				<form action="#" method="post" accept-charset="utf-8" id="logingForm" >
 					
 					<label for="user">Pseudo</label>
-					<input type="text" name="pseudo" value="" placeholder="User">
+					<div class="tooltip">
+						<input type="text" name="pseudo" value="" placeholder="Pseudo" id = "userConnect">
+						<div class="bottom" id="pseudoTooltip">
+							<p>Le pseudo n'existe pas vous pouvez créer un compte <a href="#userAdd">ici</a></p>
+							<i></i>
+						</div>
+					</div>
 					<label for="password">Mot de passe</label>
-					<input type="password" name="password" value="" placeholder="Password">
+					<div class="tooltip">
+						<input type="password" name="password" value="" placeholder="Password" id="passwordConnect">
+						<div class="bottom" id="pseudoTooltip">
+								<p>Le mot de passe est invalide</a></p>
+								<i></i>
+						</div>
+					</div>
 					<input type="submit" name="submit" value="Valider">
 				</form>
 				<a href="#userAdd"><p>Nouvel utilisateur</p></a>
@@ -37,7 +53,7 @@
 		<nav id="userAdd" onclick="closeWindow(this,true)" class="userBox warningOnClose">
 			<div onclick="closeWindow('',false)">
 				<button class="closeButton" onclick="closeWindow(this,true)">&nbsp;</button>
-				<form action="/newUser" method="post" accept-charset="utf-8" onsubmit="return verifyPasswordPseudo(this)">
+				<form action="/newUser" method="post" accept-charset="utf-8" onsubmit="return verifyPasswordPseudo(this)" encType="multipart/form-data">
 					<label for="user">Pseudo</label>
 					<div class="tooltip">
 						<input type="text" name="pseudo" value="" placeholder="Pseudo" id = "pseudoInput">
@@ -62,10 +78,38 @@
 							<i></i>
 						</div>
 					</div>
+					<input type="file" accept=".png,.jpg,.gif" onchange="loadFile(event,this.id)" id="avatarSelect" name="avatarSelect">
+					<label for="avatarSelect" class="labelDisplay">
+						<img id="displayavatarSelect" src="/images/user.png" class="userImage">
+						<div class="displayAvatarHoverText">
+							<p>Selection<br/>d'Avatar</p>
+						</div>
+					</label>
 					<input type="submit" name="submit" value="Valider">
 				</form>
 			</div>
 		</nav>
+		<%} else {%> <!-- if user is connected -->
+			<nav id="userParams" onclick="closeWindow(this,true)" class="userBox">
+				<div onclick="closeWindow('',false)" id="paramContener">
+					<button class="closeButton" onclick="closeWindow(this,true)">&nbsp;</button>
+					<form action="/changeImage" method="post" accept-charset="utf-8" encType="multipart/form-data">
+						<h1 style="color:white;">Changer l'avatar:</h1>
+						<input type="file" accept=".png,.jpg,.gif" onchange="loadFile(event,this.id)" id="avatarSelectChange" name="avatarSelectChange">
+						<label for="avatarSelectChange" class="labelDisplay">
+							<img id="displayavatarSelectChange" src="/UserImages/<%=image%>" class="userImage">
+							<div class="displayAvatarHoverText">
+								<p>Selection<br/>d'Avatar</p>
+							</div>
+						</label>
+						<input type="submit" name="submit" value="Valider">
+					</form>
+					<form action="/logout" method="post" accept-charset="utf-8">
+						<button id="logout"><img src="/images/disconnect.png" width="30" height="30"><p>Se déconecter</p></button>
+					</form>
+				</div>
+			</nav>
+		<%}%>
 	</header>
 
 	<section>
@@ -74,26 +118,119 @@
 			<label for="userSelect">Utilisateur: </label>
 			<select name="userSelect" id="userSelect">
 				<option value="any">Tout le monde</option>
+				<% pseudos.forEach((element)=>{ %>
+					<option value="<%=element.pseudo%>"><%=element.pseudo%></option>
+				<% }) %>
 			</select>
 			<label for="taskTypeSelect">Type de tache:</label>
 			<select name="taskTypeSelect" id="taskTypeSelect">
 				<option value="any">Toutes</option>
 				<option value="server">Serveur</option>
 				<option value="style">Style</option>
-				<option value="structure">Structure</option>
+				<option value="html">Structure</option>
 			</select>
 			<label for="status">Status: </label>
 			<select name="status" id="status">
+				<option value="toDo">A faire</option>
 				<option value="any">Tout</option>
-				<option value="Fait">Fait</option>
-				<option value="PasFait">A faire</option>
+				<option value="Do">Fait</option>
 			</select>
+			<% if (image) {%>
+			<a style="margin-left: 5px;" href="#createTask" id="newTask">Nouvelle tache</a>
+			<%}%>
 		</nav>
+		<% if (image) {%>
+		<nav id="createTask" onclick="closeWindow(this,true)" class="userBox">
+			<div onclick="closeWindow('',false)">
+				<button class="closeButton" onclick="closeWindow(this,true)">&nbsp;</button>
+				<form action="#" method="post" accept-charset="utf-8" onsubmit="return formAnalysis(this)">
+					<label for="title">Titre de la tache: </label>
+					<input type="text" name="title" placeholder="Titre">
+					<label for="title">Description de la tache: </label>
+					<textarea name="description" placeholder="Description, vous pouvez utiliser du markdown" id="taskTextArea"></textarea>
+					<label for="taskTypeSelect">Type de tache:</label>
+					<select name="taskTypeSelect">
+						<option value="server">Serveur</option>
+						<option value="style">Style</option>
+						<option value="html">Html</option>
+					</select>
+					<input type="submit" name="submit">
+				</form>
+			</div>
+		</nav>
+		<% } %>
+	</section>
+	<section id="taskContener">
+		<table>
+			<thead>
+				<tr>
+					<th>Utilisateur</th>
+					<th>Titre</th>
+					<th>Type de tache</th>
+					<th>Status</th>
+				</tr>
+			</thead>
+			<tbody id="tbodyTaskContener">
+				<% for (var i = 0; i < task.length; i++) {%>
+					<tr id="<%=task[i]._id%>" class="tasks user<%=task[i].user.pseudo%> type<%=task[i].type%> state<%=task[i].state%>">
+						<td class="tdUser">
+							<div class="tdUserDiv">
+								<img src="../UserImages/<%=task[i].user.image%>" class="userImage">
+								<%=task[i].user.pseudo%>
+							</div>
+						</td>
+						<td class="tdTitle"><h2><%=task[i].title%></h2></td>
+						<td class="tdType"><h2><%=task[i].type%></h2></td>
+						<td class="taskState<%=task[i].state%> tdState">
+							<% if (image && task[i].state != 2) {%>
+								<button class="taskStateButton" onclick="changeState('<%=task[i].id%>')">
+							<%} else {%>
+								<div>
+							<%}%>
+								<h2>
+								<% switch (task[i].state){
+									case 0:%>
+										A faire
+									<%break
+									case 1:%>
+										En cour
+									<%break
+									case 2:%>
+										Fait
+									<%break
+								}%>
+								</h2>
+							<% if (image && task[i].state != 2) {%>
+								</button>
+							<%} else {%>
+								</div>
+							<%}%>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="4" class="tdDescription">
+							<div>
+								<%-task[i].text%>
+							</div>
+						</td>
+					</tr>
+				<% } %>
+			</tbody>
+		</table>
 	</section>
 
 	<!--Inclusion des scripts-->
-	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
-	<script type="text/javascript" src="/js/socket.js"></script>
+	<script src="/js/prism.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		var isConnected = new Boolean("<%=image%>")
+		var userId = "<%= (userId) ? userId : 'notConnected' %>"
+
+		Prism.highlightAll()
+	</script>
+	<% if(image) {%>
+		<script type="text/javascript" src="socket.io/socket.io.js"></script>
+		<script type="text/javascript" src="/js/socket.js"></script>
+	<%}%>
 	<script src="/js/index.js" type="text/javascript" charset="utf-8"></script>
 </body>
 </html>

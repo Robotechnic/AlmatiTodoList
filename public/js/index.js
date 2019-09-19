@@ -17,9 +17,7 @@ closeWindow = (element,action) => {
 }
 
 //verification of password
-var tips1 = document.getElementById("pseudoTooltip")
-var tips2 = document.getElementById("passwordConfirmTooltip")
-var tips3 = document.getElementById("passwordTooltip")
+
 var taille = 0
 
 var pseudoInput = document.getElementById("pseudoInput")
@@ -32,34 +30,94 @@ pseudoVerif = () =>{
 	taille = pseudoInput.value.length
 	if (taille < 2 || taille > 15)
 	{
-		tips1.style.display = "block"
+		pseudoInput.className = "invalid"
 		return false
 	}
 	else
 	{
-		tips1.style.display = "none"
+		pseudoInput.className = ""
 		return true
 	}
 }
 passwordVerif = () => {
 	if (verificationPassword.test(passwordInput.value))
-		{tips3.style.display = "none"
+		{passwordInput.className = ""
 				return true}
 	else
-		{tips3.style.display = "block"
+		{passwordInput.className = "invalid"
 				return false}
 }
 passwordConfirmVerif = () =>{
 	if (passwordConfirmInput.value == passwordInput.value)
-		{tips2.style.display = "none"
+		{passwordVerifInput.className = ""
 				return true}
 	else
-		{tips2.style.display = "block"
+		{passwordConfirmInput.className = "invalid"
 				return false}
 }
-pseudoInput.addEventListener("keyup",pseudoVerif)
-passwordInput.addEventListener("keyup",passwordVerif)
-passwordConfirmInput.addEventListener("keyup",passwordConfirmVerif)
+if (isConnected == false)
+{
+	pseudoInput.addEventListener("keyup",pseudoVerif)
+	passwordInput.addEventListener("keyup",passwordVerif)
+	passwordConfirmInput.addEventListener("keyup",passwordConfirmVerif)
+}
 verifyPasswordPseudo = () =>{
 	return passwordConfirmVerif() && passwordVerif() && pseudoVerif()
 }
+
+
+//code for get url parameters
+function getUrlParam(param) {
+	var vars = {};
+	window.location.href.replace( location.hash, '' ).replace( 
+		/[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
+		function( m, key, value ) { // callback
+			vars[key] = value !== undefined ? value : '';
+		}
+	);
+
+	if ( param ) {
+		return vars[param] ? vars[param] : null;	
+	}
+	return vars;
+}
+
+//get the parameters and display errors and pseudo
+var urlParams = getUrlParam()
+
+if (urlParams["pseudo"] != undefined)
+{
+	pseudoInput.value = urlParams["pseudo"]
+	document.getElementById("userConnect").value = urlParams["pseudo"]
+}
+
+
+if (urlParams["err"] != undefined)
+{
+	var errors = urlParams["err"].split(",")
+	errors.forEach((element)=>{
+		if (element == "size")
+			pseudoInput.className = "invalid"
+		if (element == "password")
+			passwordInput.className = "invalid"
+		if (element == "confirm")
+			passwordConfirm.className = "invalid"
+		if (element == "userExist")
+			alert("Le pseudo existe déjà.\nVous pouver songer a rajouter un nombre aprés celui ci.\nVous pouvez aussi écrire comme un A❤ en remplassant certaines lettres par des chifres.")
+		if (element == "file")
+			alert("Le fichier que vous avez essayé d'uploader n'est pas valide")
+		if (element == "userConnect")
+			document.getElementById("userConnect").className = "invalid"
+		if (element == "passwordConnect")
+			document.getElementById("passwordConnect").className = "invalid"
+
+	})
+}
+
+//script to oreview the image of input file
+
+var displayAvatar = ""
+var loadFile = (event,id) => {
+	displayAvatar = document.getElementById('display'+id)
+	displayAvatar.src = URL.createObjectURL(event.target.files[0]);
+};

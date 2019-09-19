@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 
 var shemaUser = new mongoose.Schema({
-	name:String,
+	pseudo:String,
 	password:String,
 	image:String,
 })

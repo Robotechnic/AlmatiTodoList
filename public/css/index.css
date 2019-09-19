@@ -33,6 +33,7 @@ section
 {
 	margin-left: 10%;
 	margin-right: 10%;
+	width: 80%;
 }
 a
 {
@@ -70,20 +71,64 @@ a:hover
 	align-items: center;
 	justify-content: center;
 }
-
+img.userImage
+{
+	border-radius: 100%;
+	width: 100px;
+	height: 100px;
+}
+#newTask
+{
+	padding: 1px 6px;
+	text-align: center;
+	align-items: flex-start;
+	box-sizing: border-box;
+	letter-spacing: normal;
+	word-spacing: normal;
+	text-indent: 0px;
+	height: auto !important;
+}
 /*style for the input, button...*/
-button, select
+#taskTextArea
+{
+	width: 260px;
+	height: 165px;
+}
+textArea
+{
+	width:100%;
+    color:white;
+    border:1px solid #0AF;
+    border-radius:5px;
+    background-color:black;
+    color:white;
+}
+button, select, #newTask
 {
 	color:white;
-    border:1px solid #111;
+    border:1px solid #0AF;
     border-radius:5px;
     transition-duration:1s;
     height: 25px;
     font-size: 15px;
+    background: black;
 }
-select
+button{
+	cursor: pointer;
+}
+button > p
 {
-	background: black;
+	margin: auto;
+    margin-left: 5px;
+}
+#logout
+{
+	display: flex;
+	height: auto;
+}
+#logout > img
+{
+	margin: 5px;
 }
 label
 {
@@ -113,12 +158,63 @@ input[type="submit"]
 	cursor: pointer;
 	transition-duration: 0.5s;
 }
-input[type="submit"]:hover
+input[type="submit"]:hover, button:hover:not(.closeButton), #newTask:hover
 {
 	background: white;
 	color: #0AF;
 }
+input[type="file"]
+{
+	display: none;
+}
+.labelDisplay{
+	display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    height: 100px;
+}
 
+#displayavatarSelect, #displayavatarSelectChange
+{
+	cursor: pointer;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: auto;
+	left: auto;
+    z-index: 0;
+}
+.displayAvatarHoverText
+{
+	width: 100px;
+	height: 100px;
+	align-items: center;
+	justify-content: center;
+	border-radius: 100%;
+	background: #000000AF;
+	display: none;
+	cursor: pointer;
+	z-index: 1;
+}
+#displayavatarSelect:hover ~ .displayAvatarHoverText
+{
+	display: flex;
+}
+#displayavatarSelectChange:hover ~ .displayAvatarHoverText
+{
+	display: flex;
+}
+.displayAvatarHoverText:hover
+{
+	display: flex;
+}
+.displayAvatarHoverText>p
+{
+	margin: 0;
+	text-align: center;
+	justify-content: center;
+}
 /*Style for logIn and SignIn*/
 .userBox
 {
@@ -148,7 +244,6 @@ input[type="submit"]:hover
 }
 .userBox:target
 {
-	display:block;
 	display: flex;
 }
 .closeButton
@@ -163,8 +258,28 @@ input[type="submit"]:hover
     margin-left: auto;
     cursor: pointer;
 }
+#paramContener
+{
+	padding:10px;
+	align-items: center;
+	display: flex;
+	flex-direction:column;
+}
+
 
 /*tips for logIn*/
+.invalid
+{
+	-webkit-box-shadow: 0px 0px 17px -3px rgba(245,12,12,1);
+	-moz-box-shadow: 0px 0px 17px -3px rgba(245,12,12,1);
+	box-shadow: 0px 0px 17px -3px rgba(245,12,12,1);
+	border: solid red 1px;
+}
+
+.invalid:focus ~ .bottom
+{
+	display: block;
+}
 .tooltip {
     display:inline-block;
     position:relative;
@@ -178,7 +293,7 @@ input[type="submit"]:hover
     transform:translate(-50%, 20%);
     padding:10px 20px;
     color:#FFFFFF;
-    background-color:#0FF;
+    background-color:#0AF;
     font-weight:normal;
     font-size:13px;
     border-radius:8px;
@@ -206,6 +321,112 @@ input[type="submit"]:hover
     height:12px;
     left:50%;
     transform:translate(-50%,50%) rotate(45deg);
-    background-color:#0FF;
+    background-color:#0AF;
     border:1px solid #222;box-shadow:0 1px 8px rgba(0,0,0,0.5);
+}
+
+/*style for the task*/
+#taskContener
+{
+	margin-right: 5%;
+	margin-left: 5%;
+	width: 90%;
+}
+table
+{
+	width: 100%;
+	border-collapse: collapse;
+	table-layout: fixed;
+}
+td
+{
+	border: solid black 1px;
+
+}
+th
+{
+	background: black;
+	color: white;
+	border: solid 1px #0AF;
+}
+td
+{
+	background: grey;
+	color: white;
+	border: solid 1px #0AF;
+}
+td:not(.tdDescription)
+{
+	text-align: center;
+}
+.tdUser
+{
+	overflow: auto;
+}
+.tdUser>div
+{
+	display: flex;
+	align-items: center;
+}
+.tdUser>div>img
+{
+	margin-right: 5px;
+	width: 50px;
+	height: 50px;
+}
+.tdTitle>h2
+{
+	margin: 0;
+}
+.tdDescription
+{
+	background: #9c9b9b;
+}
+.tdDescription>div
+{
+	max-width: 95%;
+	overflow: auto;
+}
+
+.tdDescription img
+{
+	max-width: 100px;
+	max-height: 100px;
+}
+.tdType h2
+{
+	margin-top: 0;
+	margin-bottom: 0;
+}
+.tdState
+{
+	padding: 0;
+}
+.tdState>div
+{
+	min-width: max-content;
+	display: flex;
+	align-content: center;
+	justify-content: center;
+}
+.taskState0
+{
+	background: red;
+}
+.taskState1
+{
+	background: orange;
+}
+.taskState2
+{
+	background: lime;
+}
+.taskStateButton
+{
+	border: none;
+	background: none;
+	width: 100%;
+	height: 100%;
+	border-radius: 0;
+	color: white;
 }
