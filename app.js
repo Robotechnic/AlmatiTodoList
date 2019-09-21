@@ -51,7 +51,7 @@ app.set('view engine', 'ejs');//view engine configuration
 app.use("/",main)
 
 
-var listTypes = ["server","style","html"]
+var listTypes = ["server","style","html","javascript"]
 io.on("connection",(socket)=>{ //socket io
 	console.log("Connection d'un nouveau client")
 

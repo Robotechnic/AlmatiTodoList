@@ -3,6 +3,9 @@
 <head>
 	<meta charset="UTF-8">
 	<title>TodoListAlmati</title>
+	<style type="text/css" id="dynamicRules">
+		/*dynamic rule in javascript for sort task*/
+	</style>
 	<link rel="stylesheet" type="text/css" href="/css/index.css">
 	<link rel="stylesheet" type="text/css" href="/css/prism.css">
 	<link rel="icon" type="image/png" href="/images/icon-checkBox.png">
@@ -127,13 +130,15 @@
 				<option value="any">Toutes</option>
 				<option value="server">Serveur</option>
 				<option value="style">Style</option>
-				<option value="html">Structure</option>
+				<option value="html">Html</option>
+				<option value="javascript">Javascript</option>
 			</select>
 			<label for="status">Status: </label>
-			<select name="status" id="status">
-				<option value="toDo">A faire</option>
+			<select name="status" id="statusSelect">
 				<option value="any">Tout</option>
-				<option value="Do">Fait</option>
+				<option value="0">A faire</option>
+				<option value="1">En cour</option>
+				<option value="2">Fait</option>
 			</select>
 			<% if (image) {%>
 			<a style="margin-left: 5px;" href="#createTask" id="newTask">Nouvelle tache</a>
@@ -153,6 +158,7 @@
 						<option value="server">Serveur</option>
 						<option value="style">Style</option>
 						<option value="html">Html</option>
+						<option value="javascript">Javascript</option>
 					</select>
 					<input type="submit" name="submit">
 				</form>

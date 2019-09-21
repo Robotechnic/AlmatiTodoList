@@ -121,3 +121,55 @@ var loadFile = (event,id) => {
 	displayAvatar = document.getElementById('display'+id)
 	displayAvatar.src = URL.createObjectURL(event.target.files[0]);
 };
+
+//sort task
+var cssRules = document.getElementById("dynamicRules")
+var style = cssRules.sheet
+
+var userStyle
+document.getElementById("userSelect").addEventListener("change",(evt)=>{
+	console.log(evt.target.value)
+	if (userStyle != undefined) {
+		style.deleteRule(style)
+		style.deleteRule(style)
+	}
+	if (evt.target.value !="any")
+	{
+		userStyle = style.insertRule(".tasks:not(.user"+evt.target.value+"){display:none;}",style.cssRules.length)
+		style.insertRule(".tasks:not(.user"+evt.target.value+")+tr{display:none}",style.cssRules.length)
+	}
+	else
+		typeStyle = undefined
+})
+
+var typeStyle
+document.getElementById("taskTypeSelect").addEventListener("change",(evt)=>{
+	console.log(evt.target.value)
+	if (typeStyle != undefined) {
+		style.deleteRule(style)
+		style.deleteRule(style)
+	}
+	if (evt.target.value !="any")
+	{
+		typeStyle = style.insertRule(".tasks:not(.type"+evt.target.value+"){display:none;}",style.cssRules.length)
+		style.insertRule(".tasks:not(.type"+evt.target.value+")+tr{display:none}",style.cssRules.length)
+	}
+	else
+		typeStyle = undefined
+})
+
+var typeState
+document.getElementById("statusSelect").addEventListener("change",(evt)=>{
+	console.log(evt.target.value)
+	if (typeState != undefined) {
+		style.deleteRule(style)
+		style.deleteRule(style)
+	}
+	if (evt.target.value !="any")
+	{
+		typeState = style.insertRule(".tasks:not(.state"+evt.target.value+"){display:none;}",style.cssRules.length)
+		style.insertRule(".tasks:not(.state"+evt.target.value+")+tr{display:none}",style.cssRules.length)
+	}
+	else
+		typeState = undefined
+})

@@ -4,6 +4,7 @@ const fs = require("fs")
 var userMongo = require("../models/User")
 var taskMongo = require("../models/Task")
 var escapeHTML = require("escape-html") //escape html chars
+const mongoose = require("mongoose")
 
 const imageExtentions = ["jpg","gif","png"]
 //main page
@@ -16,7 +17,7 @@ router.get("",(req,res)=>{
 		userMongo.find({},"pseudo").exec((err,pseudo)=>{
 			if (err)
 				throw err
-			res.render("index.ejs",{pseudo:req.session.pseudo,image:req.session.image,userId:req.session._id,task:task,pseudos:pseudo})
+			res.render("index.ejs",{pseudo:req.session.pseudo,image:req.session.image,userId:req.session._id,task:task.reverse(),pseudos:pseudo})
 		})
 		
 	})
@@ -133,12 +134,24 @@ router.post("/newUser",(req,res)=>{
 
 router.post("/changeImage",(req,res)=>{
 	if (req.session.pseudo)
-		fs.writeFile("./public/UserImages/"+req.session.image, req.files.avatarSelectChange.data, (err)=>{
-			if (err)
-				throw err
-			console.log('Avatar de '+req.session.pseudo+" sauvegardé")
-			res.redirect("../")
-		});
+		if (req.files)
+		{
+			var fileName = req.files.avatarSelectChange.name
+			var ext = fileName.substring(fileName.length-3,fileName.length)
+			console.log(ext,imageExtentions.indexOf(ext))
+			fs.writeFile("./public/UserImages/"+req.session.pseudo+'.'+ext, req.files.avatarSelectChange.data, (err)=>{
+				if (err)
+					throw err
+				userMongo.updateOne({_id:mongoose.Types.ObjectId(req.session._id)},{image:req.session.pseudo+'.'+ext},(err,response)=>{
+					if (err)
+						throw err
+					console.log('Avatar de '+req.session.pseudo+" sauvegardé")
+
+					req.session.image = req.session.pseudo+'.'+ext
+					res.redirect("../")
+				})
+			})
+		}
 	else
 		res.status(403).end()
 })
