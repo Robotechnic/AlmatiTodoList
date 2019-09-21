@@ -11,13 +11,13 @@ const imageExtentions = ["jpg","gif","png"]
 router.get("",(req,res)=>{
 	console.log(req.session)
 
-	taskMongo.find({}).populate('user').exec((err,task)=>{
+	taskMongo.find({}).populate('user').sort({'_id': -1}).exec((err,task)=>{
 		if (err)
 			throw err
 		userMongo.find({},"pseudo").exec((err,pseudo)=>{
 			if (err)
 				throw err
-			res.render("index.ejs",{pseudo:req.session.pseudo,image:req.session.image,userId:req.session._id,task:task.reverse(),pseudos:pseudo})
+			res.render("index.ejs",{pseudo:req.session.pseudo,image:req.session.image,userId:req.session._id,task:task,pseudos:pseudo})
 		})
 		
 	})
