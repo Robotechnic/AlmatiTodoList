@@ -20,7 +20,7 @@ socket.on("changeType",(message)=>{ //on met a jour les actions
 				title.innerText = "Fait"
 			break
 			case 1:
-				title.innerText = "En cour"
+				title.innerText = "En cours"
 			break
 			case 2:
 				title.innerText = "Fait"
@@ -48,7 +48,7 @@ socket.on("newTaskServer",(task)=>{
 	divUser.className = "tdUserDiv"
 	userImage = document.createElement("img")
 	userImage.className = "userImage"
-	userImage.setAttribute("src","../UserImages/"+task.image)
+	userImage.setAttribute("src","data:image/png;base64, "+task.image)
 	divUser.appendChild(userImage)
 	divUser.appendChild(document.createTextNode(task.pseudo))
 	tdUser.appendChild(divUser)

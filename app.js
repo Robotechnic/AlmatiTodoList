@@ -1,14 +1,11 @@
 const express = require("express")//initialisation d'express
-const fileUpload = require('express-fileupload')
 const session = require("express-session")
 const app = express()
 
 const http = require("http").Server(app) //initialisation du serveur + Socket Io
 const io = require("socket.io")(http)
 
-app.use(fileUpload({
-    createParentPath: true
-})) //use file upload to get user's Avatar
+
 
 app.use(session({
 	secret:"pi=3.14159265359,or=1.61803398875,This is Almati's Todolist's secret !",
@@ -18,11 +15,13 @@ app.use(session({
 		maxAge:604800000 //7 day
 	}
 }))
+
 const bodyParser = require("body-parser")
-app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ //initialisaiton de body parser
-  extended: true
+  extended: false
 }))
+app.use(bodyParser.json())
+
 
 var escapeHTML = require("escape-html") //escape html chars
 var showdown  = require('showdown') //markdown support

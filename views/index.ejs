@@ -20,7 +20,7 @@
 			<h1>&nbsp;Almati&nbsp;</h1>
 		</a>
 		<a href="<% if(!image) {%>#userLogIn<%} else {%>#userParams<%}%>" id="userLink">
-			<img src="<% if(image) {%><%='UserImages/'+image%><%} else {%>/images/user.png<%}%>" alt="userImage" width="50" height="50" style="border-radius: 100%;">
+			<img src="<% if(image) {%><%='data:image/png;base64, '+image%><%} else {%>/images/user.png<%}%>" alt="userImage" width="50" height="50" style="border-radius: 100%;">
 		</a>
 		
 		<% if(!image) {%>
@@ -100,7 +100,7 @@
 						<h1 style="color:white;">Changer l'avatar:</h1>
 						<input type="file" accept=".png,.jpg,.gif" onchange="loadFile(event,this.id)" id="avatarSelectChange" name="avatarSelectChange">
 						<label for="avatarSelectChange" class="labelDisplay">
-							<img id="displayavatarSelectChange" src="/UserImages/<%=image%>" class="userImage">
+							<img id="displayavatarSelectChange" src="data:image/png;base64, <%=image%>" class="userImage">
 							<div class="displayAvatarHoverText">
 								<p>Selection<br/>d'Avatar</p>
 							</div>
@@ -181,7 +181,7 @@
 					<tr id="<%=task[i]._id%>" class="tasks user<%=task[i].user.pseudo%> type<%=task[i].type%> state<%=task[i].state%>">
 						<td class="tdUser">
 							<div class="tdUserDiv">
-								<img src="../UserImages/<%=task[i].user.image%>" class="userImage">
+								<img src="data:image/png;base64, <%=task[i].user.image%>" class="userImage">
 								<%=task[i].user.pseudo%>
 							</div>
 						</td>

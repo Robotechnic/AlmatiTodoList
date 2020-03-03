@@ -6,10 +6,14 @@ var taskMongo = require("../models/Task")
 var escapeHTML = require("escape-html") //escape html chars
 const mongoose = require("mongoose")
 
-const imageExtentions = ["jpg","gif","png"]
+const multer = require('multer')
+var upload = multer(); //multer to get user's Avatar
+
 //main page
 router.get("",(req,res)=>{
-	console.log(req.session)
+	console.log(req.session.cookie)
+	console.log(req.session.pseudo)
+	console.log(req.session._id)
 
 	taskMongo.find({}).populate('user').sort({'_id': -1}).exec((err,task)=>{
 		if (err)
@@ -53,7 +57,7 @@ router.post("",(req,res)=>{
 
 //create a new user
 var verificationPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!$%@#£€*?&éçàè=+-/°]{8,}$/
-router.post("/newUser",(req,res)=>{
+router.post("/newUser",upload.single('avatarSelect'),(req,res)=>{
 
 	var body = req.body
 	//console.log(body)
@@ -86,38 +90,21 @@ router.post("/newUser",(req,res)=>{
 			throw err
 		if (user == null)
 		{
-			console.log("Nouvel Utilisateur ! Pseudo: "+body.pseudo)
-			if (req.files)
+			if (req.file)
 			{
-				var fileName = req.files.avatarSelect.name
-				var ext = fileName.substring(fileName.length-3,fileName.length)
-				console.log(ext,imageExtentions.indexOf(ext)) 
-				if (imageExtentions.indexOf(ext) == -1)
-					res.redirect("../?err=file#userAdd")
-				else
-				{
-					
-					fs.writeFile("./public/UserImages/"+body.pseudo+"."+ext, req.files.avatarSelect.data, (err)=>{
-						if (err)
-							throw err
-						console.log('Avatar de '+body.pseudo+" sauvegardé")
-					});
-				}
+				var base64 = req.file.buffer.toString('base64')
 			}
 			else
 			{
-				fs.copyFile('./public/images/user.png', "./public/UserImages/"+body.pseudo+".png", (err) => {
-				    if (err) throw err;
-				    console.log('Avatar de '+body.pseudo+" sauvegardé")
-				});
-				ext = "png"
+				var bitmap = fs.readFileSync("./public/images/user.png");
+			    var base64 = Buffer.from(bitmap).toString('base64');
 			}
-
 			var newUser = new userMongo({
 				pseudo:body.pseudo,
 				password:passwordHash.generate(body.password),
-				image:body.pseudo+"."+ext
+				image:base64
 			})
+			console.log("Nouvel Utilisateur ! Pseudo: "+body.pseudo)
 			newUser.save((err)=>{
 				if (err)
 					throw err
@@ -132,24 +119,18 @@ router.post("/newUser",(req,res)=>{
 
 //user's parameters
 
-router.post("/changeImage",(req,res)=>{
+router.post("/changeImage",upload.single('avatarSelectChange'),(req,res)=>{
 	if (req.session.pseudo)
-		if (req.files)
+		if (req.file)
 		{
-			var fileName = req.files.avatarSelectChange.name
-			var ext = fileName.substring(fileName.length-3,fileName.length)
-			console.log(ext,imageExtentions.indexOf(ext))
-			fs.writeFile("./public/UserImages/"+req.session.pseudo+'.'+ext, req.files.avatarSelectChange.data, (err)=>{
+			var base64 = req.file.buffer.toString('base64')
+			userMongo.updateOne({_id:mongoose.Types.ObjectId(req.session._id)},{image:base64},(err,response)=>{
 				if (err)
 					throw err
-				userMongo.updateOne({_id:mongoose.Types.ObjectId(req.session._id)},{image:req.session.pseudo+'.'+ext},(err,response)=>{
-					if (err)
-						throw err
-					console.log('Avatar de '+req.session.pseudo+" sauvegardé")
+				console.log('Avatar de '+req.session.pseudo+" sauvegardé")
 
-					req.session.image = req.session.pseudo+'.'+ext
-					res.redirect("../")
-				})
+				req.session.image = base64
+				res.redirect("../")
 			})
 		}
 	else
@@ -163,7 +144,8 @@ router.post("/logout",(req,res)=>{
 			if (err)
 				throw err
 		})
-		res.redirect("../")
+		console.log(req.get('host'))
+		res.redirect(req.get('host'))
 	}
 	else
 		res.status(403).end()
