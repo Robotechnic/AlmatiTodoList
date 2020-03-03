@@ -81,7 +81,7 @@ socket.on("newTaskServer",(task)=>{
 			h2State.appendChild(document.createTextNode("A faire"))
 		break
 		case 1:
-			h2State.appendChild(document.createTextNode("En cour"))
+			h2State.appendChild(document.createTextNode("En cours"))
 		break
 		case 2:
 			h2State.appendChild(document.createTextNode("Fait"))
@@ -103,6 +103,8 @@ socket.on("newTaskServer",(task)=>{
 	let tableaux = document.getElementById("tbodyTaskContener")
 	tableaux.insertBefore(trContent,tableaux.childNodes[0])
 	tableaux.insertBefore(tr,tableaux.childNodes[0]);
+
+	document.location.hash = ""
 })
 
 formAnalysis = (form) => {
