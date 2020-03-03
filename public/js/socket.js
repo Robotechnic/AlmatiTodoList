@@ -101,8 +101,8 @@ socket.on("newTaskServer",(task)=>{
 	trContent.appendChild(tdDescription)
 
 	let tableaux = document.getElementById("tbodyTaskContener")
-	tableaux.appendChild(tr)
-	tableaux.appendChild(trContent)
+	tableaux.insertBefore(trContent)
+	tableaux.insertBefore(tr)
 })
 
 formAnalysis = (form) => {
