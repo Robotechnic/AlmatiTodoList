@@ -30,7 +30,7 @@ var converter = new showdown.Converter()
 //configurer mongoose
 const mongoose = require("mongoose")
 //mongoose.connect("mongodb://localhost:27017/toDoList",{useNewUrlParser: true},(err) =>{
-mongoose.connect("mongodb+srv://Almadmin:Alma3.141592@cluster0-gfcq6.mongodb.net/test?retryWrites=true&w=majority",{useNewUrlParser: true},(err) =>{
+mongoose.connect("mongodb+srv://Almadmin:Alma3.141592@cluster0-gfcq6.mongodb.net/test?retryWrites=true&w=majority",{useNewUrlParser: true,useUnifiedTopology: true},(err) =>{
 	if (err)
 		throw err
 })
