@@ -56,7 +56,7 @@ socket.on("newTaskServer",(task)=>{
 	let tdTitle = document.createElement("td")
 	tdTitle.className = "tdTitle"
 	let h2Title = document.createElement("h2")
-	h2Title.write(task.title)
+	h2Title.append(task.title)
 	tdTitle.appendChild(h2Title)
 	tr.appendChild(tdTitle)
 	let tdType = document.createElement("td")
