@@ -185,7 +185,7 @@
 								<%=task[i].user.pseudo%>
 							</div>
 						</td>
-						<td class="tdTitle"><h2><%=task[i].title%></h2></td>
+						<td class="tdTitle"><h2><%-task[i].title%></h2></td>
 						<td class="tdType"><h2><%=task[i].type%></h2></td>
 						<td class="taskState<%=task[i].state%> tdState">
 							<% if (image && task[i].state != 2) {%>
