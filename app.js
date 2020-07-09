@@ -62,7 +62,7 @@ io.on("connection",(socket)=>{ //socket io
 	
 	var session = socket.request.session
 
-	if (!session.connected){
+	if (!session.pseudo){
 		socket.disconnect()
 	} else {
 		socket.on("newTaskClient",(action)=>{ //ajout d'une action
