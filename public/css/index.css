@@ -2,6 +2,9 @@ html,body
 {
 	margin: 0;
 }
+*{
+	font-family: 'Dosis';
+}
 body
 {
 	background: url("/images/background.jpg") center fixed no-repeat;
@@ -9,7 +12,6 @@ body
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-	font-family: 'Dosis';
 }
 header
 {
@@ -20,6 +22,7 @@ header
 	margin-bottom: 20px;
 	display: flex;
 }
+
 header > #userLink
 {
 	display: block;

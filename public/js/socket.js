@@ -70,9 +70,11 @@ socket.on("newTaskServer",(task)=>{
 		var tdStateContent = document.createElement("button")
 		tdStateContent.className = "taskStateButton"
 		tdStateContent.setAttribute("onclick","changeState('"+task._id+"')")
+		tdStateContent.classList.add("taskStateButton")
 	}
 	else
 		var tdStateContent = document.createElement("div")
+	tdStateContent.classList.add("taskStateContener")
 	let h2State = document.createElement("h2")
 	switch (task.state){
 		case 0:
@@ -142,4 +144,24 @@ document.querySelectorAll(".setPublicStateCheckbox").forEach((element)=>{
 			id:id
 		})
 	})
+})
+
+socket.on("newPublicState",(newState)=>{
+	console.log(newState)
+	if (newState.public){
+		document.getElementById("labelSetPublicState."+newState.id).innerText = "Oui"
+		var tdStateContent = document.createElement("button")
+		tdStateContent.classList.add("taskStateButton")
+		tdStateContent.setAttribute("onclick","changeState('"+newState.id+"')")
+	} else {
+		document.getElementById("labelSetPublicState."+newState.id).innerText = "Non"
+		var tdStateContent = document.createElement("div")
+	}
+	tdStateContent.classList.add("taskStateContener")
+	var tr = document.getElementById(newState.id)
+	var holdContener = tr.querySelector(".taskStateContener")
+	console.log(holdContener.childNodes)
+	tdStateContent.appendChild(holdContener.querySelector("h2"))
+	tr.querySelector(".tdState").appendChild(tdStateContent)
+	holdContener.remove()
 })

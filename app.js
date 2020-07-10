@@ -152,8 +152,8 @@ io.on("connection",(socket)=>{ //socket io
 						if (response.nModified == 1)
 						{
 							console.log("state public changé")
-							socket.emit("changeType",{id:action.id,public:action.public})
-							socket.broadcast.emit("changeType",{id:action.id,public:action.public})
+							socket.emit("newPublicState",{id:action.id,public:action.public})
+							socket.broadcast.emit("newPublicState",{id:action.id,public:action.public})
 						}
 					})
 				}
