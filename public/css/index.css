@@ -341,7 +341,9 @@ table
 td
 {
 	border: solid black 1px;
-
+}
+td label{
+	font-size: inherit;
 }
 th
 {
@@ -381,6 +383,7 @@ td:not(.tdDescription)
 .tdDescription
 {
 	background: #9c9b9b;
+	padding: 5px;
 }
 .tdDescription>div
 {

@@ -178,6 +178,7 @@
 					<th>Titre</th>
 					<th>Type de tache</th>
 					<th>Status</th>
+					<th>Publique</th>
 				</tr>
 			</thead>
 			<tbody id="tbodyTaskContener">
@@ -216,9 +217,25 @@
 								</div>
 							<%}%>
 						</td>
+						<td>
+							<% if (task[i].public) {
+								var publique = "Oui"
+							} else {
+								var publique = "Non"
+							}%>
+							<% if (task[i].user.id == userId) {%>
+							<div class="checkboxGroup">
+								<input type="checkbox" name="setPublicState" id="setPublicState.<%=task[i]._id%>" <% if (task[i].public){ %>checked<%}%> class="setPublicStateCheckbox">
+								<label For="setPublicState.<%=task[i]._id%>" id="labelSetPublicState.<%=task[i]._id%>"><%=publique%></label>
+							</div>
+							<% } else {%>
+								<%=publique%>
+							<% } %>
+							
+						</td>
 					</tr>
 					<tr>
-						<td colspan="4" class="tdDescription">
+						<td colspan="5" class="tdDescription">
 							<div>
 								<%-task[i].text%>
 							</div>

@@ -116,7 +116,6 @@ io.on("connection",(socket)=>{ //socket io
 		console.log("Tentative changement de donnée de ",action.id)
 		if (session.pseudo)
 			if (action.state>0 && action.state <4)
-			{
 				taskMongo.findOne({_id:action.id}).populate('user').exec((err,task)=>{
 					if (err)
 						throw err
@@ -133,9 +132,32 @@ io.on("connection",(socket)=>{ //socket io
 							}
 						})
 				})
-			}
 			else
 				console.log("state invalide")
+		else
+			console.log("L'utilisateur n'est pas conecté")
+	})
+
+	socket.on("changePublicState",(action)=>{
+		console.log("Tentative changement du status public de:",action.id)
+		if (session.pseudo)
+			taskMongo.findOne({_id:action.id}).populate('user').exec((err,task)=>{
+				if (err)
+					throw err
+				if (session._id == task.user._id){
+					taskMongo.updateOne({_id:mongoose.Types.ObjectId(action.id)},{public:action.public},(err,response)=>{
+						if (err)
+							throw err
+						console.log("Correspond:",response.n,"Changé:",response.nModified)
+						if (response.nModified == 1)
+						{
+							console.log("state public changé")
+							socket.emit("changeType",{id:action.id,public:action.public})
+							socket.broadcast.emit("changeType",{id:action.id,public:action.public})
+						}
+					})
+				}
+			})
 		else
 			console.log("L'utilisateur n'est pas conecté")
 	})

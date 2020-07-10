@@ -127,3 +127,19 @@ changeState = (id) =>{ //envoi de la supression de liste
 		socket.emit("changeState",{id:id,state:state+1})
 	}
 }
+
+document.querySelectorAll(".setPublicStateCheckbox").forEach((element)=>{
+	element.addEventListener("input",(event)=>{
+		var id = element.id.split(".")[1]
+		var sender = event.target
+		if (sender.checked)
+			document.getElementById("labelSetPublicState."+id).innerText = "Oui"
+		else
+			document.getElementById("labelSetPublicState."+id).innerText = "Non"
+
+		socket.emit("changePublicState",{
+			public:sender.checked,
+			id:id
+		})
+	})
+})
