@@ -53,7 +53,7 @@ socket.on("newTaskServer",(task)=>{
 	let tdTitle = document.createElement("td")
 	tdTitle.className = "tdTitle"
 	let h2Title = document.createElement("h2")
-	h2Title.append(task.title)
+	h2Title.innerHTML = task.title
 	tdTitle.appendChild(h2Title)
 	tr.appendChild(tdTitle)
 	let tdType = document.createElement("td")
@@ -64,8 +64,8 @@ socket.on("newTaskServer",(task)=>{
 	tr.appendChild(tdType)
 	let tdState = document.createElement("td")
 	tdState.className = "taskState"+task.state+" tdState"
-	console.log("Nouvelle Tache:",task.title,"Connecté:",isConnected,"Public:",task.public,"userId:",task.userId,userId,"Boolean vérification:",isConnected && (task.public || task.userId == userId))
-	if (isConnected && (task.public || task.userId == userId))
+
+	if (isConnected == true && (task.public || task.userId == userId))
 	{
 		var tdStateContent = document.createElement("button")
 		tdStateContent.className = "taskStateButton"
