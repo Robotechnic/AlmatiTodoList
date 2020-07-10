@@ -192,7 +192,7 @@
 						<td class="tdTitle"><h2><%-task[i].title%></h2></td>
 						<td class="tdType"><h2><%=task[i].type%></h2></td>
 						<td class="taskState<%=task[i].state%> tdState">
-							<% if (image && task[i].state != 2) {%>
+							<% if (image && task[i].state != 2 && (task[i].public || task[i].user.id == userId) ) {%>
 								<button class="taskStateButton" onclick="changeState('<%=task[i].id%>')">
 							<%} else {%>
 								<div>

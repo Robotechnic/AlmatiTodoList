@@ -117,16 +117,21 @@ io.on("connection",(socket)=>{ //socket io
 		if (session.pseudo)
 			if (action.state>0 && action.state <4)
 			{
-				taskMongo.updateOne({_id:mongoose.Types.ObjectId(action.id)},{state:action.state},(err,response)=>{
+				taskMongo.findOne({_id:action.id}).populate('user').exec((err,task)=>{
 					if (err)
 						throw err
-					console.log("Correspond:",response.n,"Changé:",response.nModified)
-					if (response.nModified == 1)
-					{
-						console.log("state changé")
-						socket.emit("changeType",{id:action.id,state:action.state})
-						socket.broadcast.emit("changeType",{id:action.id,state:action.state})
-					}
+					if (session._id == task.user._id || task.public)
+						taskMongo.updateOne({_id:mongoose.Types.ObjectId(action.id)},{state:action.state},(err,response)=>{
+							if (err)
+								throw err
+							console.log("Correspond:",response.n,"Changé:",response.nModified)
+							if (response.nModified == 1)
+							{
+								console.log("state changé")
+								socket.emit("changeType",{id:action.id,state:action.state})
+								socket.broadcast.emit("changeType",{id:action.id,state:action.state})
+							}
+						})
 				})
 			}
 			else
