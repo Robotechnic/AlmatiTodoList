@@ -150,16 +150,20 @@
 				<button class="closeButton" onclick="closeWindow(this,true)">&nbsp;</button>
 				<form action="#" method="post" accept-charset="utf-8" onsubmit="return formAnalysis(this)">
 					<label for="title">Titre de la tache: </label>
-					<input type="text" name="title" placeholder="Titre">
-					<label for="title">Description de la tache: </label>
+					<input type="text" name="title" placeholder="Titre" id="title">
+					<label for="taskTextArea">Description de la tache: </label>
 					<textarea name="description" placeholder="Description, vous pouvez utiliser du markdown" id="taskTextArea"></textarea>
 					<label for="taskTypeSelect">Type de tache:</label>
-					<select name="taskTypeSelect">
+					<select name="taskTypeSelect" id="taskTypeSelect">
 						<option value="server">Serveur</option>
 						<option value="style">Style</option>
 						<option value="html">Html</option>
 						<option value="javascript">Javascript</option>
 					</select>
+					<div class="checkboxGroup">
+						<input type="checkbox" name="public" id="public" checked>
+						<label For="public">Modification publique</label>
+					</div>
 					<input type="submit" name="submit">
 				</form>
 			</div>
@@ -233,10 +237,8 @@
 
 		Prism.highlightAll()
 	</script>
-	<% if(image) {%>
-		<script type="text/javascript" src="socket.io/socket.io.js"></script>
-		<script type="text/javascript" src="/js/socket.js"></script>
-	<%}%>
+	<script type="text/javascript" src="socket.io/socket.io.js"></script>
+	<script type="text/javascript" src="/js/socket.js"></script>
 	<script src="/js/index.js" type="text/javascript" charset="utf-8"></script>
 </body>
 </html>

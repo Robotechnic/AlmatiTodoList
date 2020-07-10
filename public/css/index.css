@@ -430,3 +430,9 @@ td:not(.tdDescription)
 	border-radius: 0;
 	color: white;
 }
+
+.checkboxGroup{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}

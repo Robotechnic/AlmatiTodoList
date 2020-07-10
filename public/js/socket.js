@@ -8,24 +8,21 @@ socket.on("connect",(message)=>{
 
 
 socket.on("changeType",(message)=>{ //on met a jour les actions
-	if (isConnected == true)
-	{
-		console.log('Le type de',message.id,'a été changé a',message.state)
+	console.log('Le type de',message.id,'a été changé a',message.state)
 
-		let task = document.getElementById(message.id)
-		task.cells[3].className = "taskState"+String(message.state)+" tdState"
-		title = task.cells[3].children[0].children[0]
-		switch (message.state){
-			case 0:
-				title.innerText = "Fait"
-			break
-			case 1:
-				title.innerText = "En cours"
-			break
-			case 2:
-				title.innerText = "Fait"
-			break
-		}
+	let task = document.getElementById(message.id)
+	task.cells[3].className = "taskState"+String(message.state)+" tdState"
+	title = task.cells[3].children[0].children[0]
+	switch (message.state){
+		case 0:
+			title.innerText = "Fait"
+		break
+		case 1:
+			title.innerText = "En cours"
+		break
+		case 2:
+			title.innerText = "Fait"
+		break
 	}
 })
 
@@ -67,7 +64,8 @@ socket.on("newTaskServer",(task)=>{
 	tr.appendChild(tdType)
 	let tdState = document.createElement("td")
 	tdState.className = "taskState"+task.state+" tdState"
-	if (isConnected)
+	console.log("Nouvelle Tache:",task.title,"Connecté:",isConnected,"Public:",task.public,"userId:",task.userId,userId,"Boolean vérification:",isConnected && (task.public || task.userId == userId))
+	if (isConnected && (task.public || task.userId == userId))
 	{
 		var tdStateContent = document.createElement("button")
 		tdStateContent.className = "taskStateButton"
@@ -108,13 +106,13 @@ socket.on("newTaskServer",(task)=>{
 })
 
 formAnalysis = (form) => {
-	console.log(form)
 
 	socket.emit("newTaskClient",{
 		userId:userId,
 		title:form.title.value,
 		description:form.description.value,
-		type:form.taskTypeSelect.value
+		type:form.taskTypeSelect.value,
+		public:form.public.checked
 	})
 	return false
 }

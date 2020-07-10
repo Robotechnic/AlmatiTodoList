@@ -61,13 +61,10 @@ io.on("connection",(socket)=>{ //socket io
 	console.log("Connection d'un nouveau client")
 	
 	var session = socket.request.session
-
-	if (!session.pseudo){
-		socket.disconnect()
-	} else {
-		socket.on("newTaskClient",(action)=>{ //ajout d'une action
-			//console.log(action)
-			console.log("tentative de création d'une nouvelle tache")
+	socket.on("newTaskClient",(action)=>{ //ajout d'une action
+		//console.log(action)
+		console.log("tentative de création d'une nouvelle tache")
+		if (session.pseudo)
 			if (listTypes.indexOf(action.type) > -1)
 			{
 				action.title = escapeHTML(action.title)
@@ -77,6 +74,7 @@ io.on("connection",(socket)=>{ //socket io
 					user: mongoose.Types.ObjectId(action.userId),
 					text:action.description,
 					title:action.title,
+					public:action.public,
 					type:escapeHTML(action.type)
 				})
 				newTask.save((err,task)=>{
@@ -96,7 +94,9 @@ io.on("connection",(socket)=>{ //socket io
 							title:task.title,
 							type:task.type,
 							_id:task._id,
-							state:task.state
+							state:task.state,
+							public:task.public,
+							userId:action.userId
 						}
 						socket.broadcast.emit("newTaskServer",data)
 						socket.emit("newTaskServer",data)
@@ -108,9 +108,13 @@ io.on("connection",(socket)=>{ //socket io
 			{
 				socket.emit("error","type")
 			}
-		})
-		socket.on("changeState",(action)=>{ //supression d'ue action
-			console.log("Tentative changement de donnée de ",action.id)
+		else
+			console.log("L'utilisateur n'est pas conecté")
+	})
+
+	socket.on("changeState",(action)=>{ //supression d'ue action
+		console.log("Tentative changement de donnée de ",action.id)
+		if (session.pseudo)
 			if (action.state>0 && action.state <4)
 			{
 				taskMongo.updateOne({_id:mongoose.Types.ObjectId(action.id)},{state:action.state},(err,response)=>{
@@ -126,14 +130,21 @@ io.on("connection",(socket)=>{ //socket io
 				})
 			}
 			else
-			{
 				console.log("state invalide")
-			}
-		})
-	}
+		else
+			console.log("L'utilisateur n'est pas conecté")
+	})
 })
 
 
 http.listen(PORT,()=>{
 	console.log("Le serveur fonctionne sur 8080"); //le serveur fonctionne d'il n'y a pas eu d'erreurs
 })
+
+
+try { 
+    var res =  taskMongo.update( {}, {public : true } );
+    console.log(res)
+} catch(e) { 
+    print(e);
+}
