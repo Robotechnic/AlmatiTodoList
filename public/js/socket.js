@@ -157,11 +157,14 @@ socket.on("newPublicState",(newState)=>{
 		document.getElementById("labelSetPublicState."+newState.id).innerText = "Non"
 		var tdStateContent = document.createElement("div")
 	}
-	tdStateContent.classList.add("taskStateContener")
-	var tr = document.getElementById(newState.id)
-	var holdContener = tr.querySelector(".taskStateContener")
-	console.log(holdContener.childNodes)
-	tdStateContent.appendChild(holdContener.querySelector("h2"))
-	tr.querySelector(".tdState").appendChild(tdStateContent)
-	holdContener.remove()
+
+	if (newState.userId != userId){
+		tdStateContent.classList.add("taskStateContener")
+		var tr = document.getElementById(newState.id)
+		var holdContener = tr.querySelector(".taskStateContener")
+		console.log(holdContener.childNodes)
+		tdStateContent.appendChild(holdContener.querySelector("h2"))
+		tr.querySelector(".tdState").appendChild(tdStateContent)
+		holdContener.remove()
+	}
 })

@@ -427,7 +427,10 @@ td:not(.tdDescription)
 {
 	background: lime;
 }
-.taskStateButton
+.taskStateButton{
+	cursor: pointer;
+}
+.taskStateContener
 {
 	border: none;
 	background: none;
@@ -435,6 +438,9 @@ td:not(.tdDescription)
 	height: 100%;
 	border-radius: 0;
 	color: white;
+}
+.taskStateContener h2{
+	font-size: 24px;
 }
 
 .checkboxGroup{

@@ -152,8 +152,8 @@ io.on("connection",(socket)=>{ //socket io
 						if (response.nModified == 1)
 						{
 							console.log("state public changé")
-							socket.emit("newPublicState",{id:action.id,public:action.public})
-							socket.broadcast.emit("newPublicState",{id:action.id,public:action.public})
+							socket.emit("newPublicState",{id:action.id,public:action.public,userId:task.user._id})
+							socket.broadcast.emit("newPublicState",{id:action.id,public:action.public,userId:task.user._id})
 						}
 					})
 				}
@@ -167,11 +167,3 @@ io.on("connection",(socket)=>{ //socket io
 http.listen(PORT,()=>{
 	console.log("Le serveur fonctionne sur 8080"); //le serveur fonctionne d'il n'y a pas eu d'erreurs
 })
-
-
-try { 
-    var res =  taskMongo.update( {}, {public : true } );
-    console.log(res)
-} catch(e) { 
-    print(e);
-}
