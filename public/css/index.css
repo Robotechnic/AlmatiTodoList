@@ -448,3 +448,9 @@ td:not(.tdDescription)
 	align-items: center;
 	justify-content: center;
 }
+
+hr{
+	width: 100%;
+	background: white;
+	border: solid white 1px;
+}

@@ -160,11 +160,21 @@
 						<option value="html">Html</option>
 						<option value="javascript">Javascript</option>
 					</select>
+					<hr>
 					<div class="checkboxGroup">
 						<input type="checkbox" name="public" id="public" checked>
 						<label For="public">Modification publique</label>
 					</div>
-					<input type="submit" name="submit">
+					<label For="pourSelect">Tache pour:</label>
+					<select id="pourSelect">
+						<% for (p of pseudos){%>
+							<option value="<%=p._id%>" <% if (p.pseudo == pseudo) {%>selected<%}%>>
+								<%=p.pseudo%>
+							</option>
+						<%}%>
+					</select>
+					<hr>
+					<input type="submit" name="submit" value="Valider">
 				</form>
 			</div>
 		</nav>

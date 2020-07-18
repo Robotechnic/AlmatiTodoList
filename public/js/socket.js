@@ -110,7 +110,7 @@ socket.on("newTaskServer",(task)=>{
 formAnalysis = (form) => {
 
 	socket.emit("newTaskClient",{
-		userId:userId,
+		userId:form.pourSelect.value,
 		title:form.title.value,
 		description:form.description.value,
 		type:form.taskTypeSelect.value,
