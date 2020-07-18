@@ -91,10 +91,42 @@ socket.on("newTaskServer",(task)=>{
 	tdState.appendChild(tdStateContent)
 	tr.appendChild(tdState)
 
+	var tdPublic = document.createElement("td")
+	tdPublic.className = "tdPublic"
+
+	var public = task.public ? "Oui" : "Non"
+	
+	if (isConnected == true && task.userId == userId){
+		var tdPublicCheckboxGroup = document.createElement("div")
+		tdPublic.appendChild(tdPublicCheckboxGroup)
+		tdPublicCheckboxGroup.className = "checkboxGroup"
+
+		var tdPublicCheckboxGroupLabel = document.createElement("label")
+		tdPublicCheckboxGroupLabel.appendChild(document.createTextNode(public))
+		tdPublicCheckboxGroupLabel.id="labelSetPublicState."+task._id
+		tdPublicCheckboxGroupLabel.For="setPublicStateCheckbox."+task._id
+
+		var tdPublicCheckboxGroupCheckBox = document.createElement("input")
+		tdPublicCheckboxGroupCheckBox.id = "setPublicStateCheckbox."+task._id
+		tdPublicCheckboxGroupCheckBox.className = "setPublicStateCheckbox"
+		tdPublicCheckboxGroupCheckBox.type = "checkbox"
+		tdPublicCheckboxGroupCheckBox.name = "setPublicState"
+		if (task.public)
+			tdPublicCheckboxGroupCheckBox.checked = "true"
+
+		tdPublicCheckboxGroup.appendChild(tdPublicCheckboxGroupCheckBox)
+		tdPublicCheckboxGroup.appendChild(tdPublicCheckboxGroupLabel)
+	} else {
+		var tdPublicContener = document.createElement("div")
+		tdPublicContener.id = "labelSetPublicState."+task._id
+		tdPublicContener.appendChild(document.createTextNode(public))
+	}
+	tr.appendChild(tdPublic)
+
 	let trContent = document.createElement("tr")
 	let tdDescription = document.createElement("td")
 	tdDescription.className = "tdDescription"
-	tdDescription.setAttribute("colspan","4")
+	tdDescription.setAttribute("colspan","5")
 	var divDescription = document.createElement("div")
 	divDescription.innerHTML = task.text
 	tdDescription.appendChild(divDescription)
