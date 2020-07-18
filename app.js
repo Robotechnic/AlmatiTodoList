@@ -5,6 +5,20 @@ const app = express()
 const http = require("http").Server(app) //initialisation du serveur + Socket Io
 const io = require("socket.io")(http)
 
+//configurer mongoose
+const mongoose = require("mongoose")
+//mongoose.connect("mongodb://localhost:27017/toDoList",{useNewUrlParser: true},(err) =>{
+mongoose.connect("mongodb+srv://Almadmin:Alma3.141592@cluster0-gfcq6.mongodb.net/test?retryWrites=true&w=majority",{useNewUrlParser: true,useUnifiedTopology: true},(err) =>{
+	if (err)
+		throw err
+})
+
+var userMongo = require("./models/User") 
+var taskMongo = require("./models/Task")
+
+//configure session
+const MongoStore = require('connect-mongo')(session)
+
 sessionMiddleware = session({
 	name:"userID",
 	resave:false,
@@ -14,7 +28,8 @@ sessionMiddleware = session({
 		//secure:true,
 		httpOnly:true,
 		maxAge:604800000 //one week
-	}
+	},
+	store: new MongoStore({ mongooseConnection: mongoose.connection })
 })
 
 app.use(sessionMiddleware)
@@ -29,17 +44,6 @@ app.use(bodyParser.json())
 var escapeHTML = require("escape-html") //escape html chars
 var showdown  = require('showdown') //markdown support
 var converter = new showdown.Converter()
-
-//configurer mongoose
-const mongoose = require("mongoose")
-//mongoose.connect("mongodb://localhost:27017/toDoList",{useNewUrlParser: true},(err) =>{
-mongoose.connect("mongodb+srv://Almadmin:Alma3.141592@cluster0-gfcq6.mongodb.net/test?retryWrites=true&w=majority",{useNewUrlParser: true,useUnifiedTopology: true},(err) =>{
-	if (err)
-		throw err
-})
-
-var userMongo = require("./models/User") 
-var taskMongo = require("./models/Task")
 
 const main = require("./routes/main.js")
 
